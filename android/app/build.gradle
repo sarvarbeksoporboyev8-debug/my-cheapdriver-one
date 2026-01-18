@@ -37,6 +37,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    namespace "com.appzler.deliverzler"
     compileSdkVersion 34
 
     compileOptions {
@@ -59,7 +60,7 @@ android {
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        manifestPlaceholders.ANDROID_GOOGLE_MAPS_API_KEY = dartEnvironmentVariables.ANDROID_GOOGLE_MAPS_API_KEY
+        manifestPlaceholders["ANDROID_GOOGLE_MAPS_API_KEY"] = dartEnvironmentVariables.ANDROID_GOOGLE_MAPS_API_KEY ?: ""
     }
 
     buildTypes {
