@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/presentation/helpers/localization_helper.dart';
+import '../../../core/presentation/routing/app_router.dart';
 import '../../../core/presentation/styles/styles.dart';
 import '../../../core/presentation/utils/riverpod_framework.dart';
 import '../../../core/presentation/widgets/custom_elevated_button.dart';
@@ -78,6 +79,21 @@ class LoginFormComponent extends HookConsumerWidget {
             child: Text(
               tr(context).signIn.toUpperCase(),
               style: TextStyles.coloredElevatedButton(context),
+            ),
+          ),
+          const SizedBox(
+            height: Sizes.marginV24,
+          ),
+          TextButton(
+            onPressed: () {
+              const HomeShellRouteData().go(context);
+            },
+            child: Text(
+              'View Demo Version',
+              style: TextStyles.f16(context).copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
         ],
