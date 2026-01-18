@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "757982037388",
+    "project_id": "cheap-driver-app",
+    "storage_bucket": "cheap-driver-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757982037388:android:67e081d6e7344c035242a9",
+        "android_client_info": {
+          "package_name": "com.appzler.deliverzler"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQNSow1L1JpKFElhmsvqJr0uaGwCRX-3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
