@@ -86,7 +86,7 @@ class LoginFormComponent extends HookConsumerWidget {
           ),
           TextButton(
             onPressed: () {
-              const HomeShellRouteData().go(context);
+              const HomeRoute().go(context);
             },
             child: Text(
               'View Demo Version',
