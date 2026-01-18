@@ -7,6 +7,8 @@ import '../../../core/presentation/utils/riverpod_framework.dart';
 import '../../../core/presentation/widgets/custom_elevated_button.dart';
 import '../../../core/presentation/widgets/platform_widgets/platform_icons.dart';
 import '../../domain/sign_in_with_email.dart';
+import '../../domain/user.dart';
+import '../providers/auth_state_provider.dart';
 import '../providers/sign_in_provider.dart';
 
 class LoginFormComponent extends HookConsumerWidget {
@@ -82,18 +84,25 @@ class LoginFormComponent extends HookConsumerWidget {
             ),
           ),
           const SizedBox(
-            height: Sizes.marginV24,
+            height: Sizes.marginV20,
           ),
-          TextButton(
+          CustomElevatedButton(
+            enableGradient: false,
             onPressed: () {
+              // Create a demo user to bypass auth
+              final demoUser = User(
+                id: 'demo_user',
+                email: 'demo@example.com',
+                name: 'Demo User',
+                phone: '+1234567890',
+                image: '',
+              );
+              ref.read(authStateProvider.notifier).authenticateUser(demoUser);
               const HomeRoute().go(context);
             },
             child: Text(
-              'View Demo Version',
-              style: TextStyles.f16(context).copyWith(
-                color: Theme.of(context).colorScheme.primary,
-                decoration: TextDecoration.underline,
-              ),
+              'VIEW DEMO VERSION',
+              style: TextStyles.coloredElevatedButton(context),
             ),
           ),
         ],
