@@ -14,6 +14,7 @@ abstract class CustomToast {
     EdgeInsets? margin,
     EdgeInsets? padding,
     Duration toastDuration = const Duration(seconds: 3),
+    Widget Function(BuildContext, Widget)? positionedToastBuilder,
   }) {
     removeToast();
 
@@ -32,15 +33,19 @@ abstract class CustomToast {
       child: child,
     );
 
+    final toastChild = Center(
+      child: Material(color: Colors.transparent, child: toast),
+    );
+
     _currentToast = OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: 100,
-        left: 0,
-        right: 0,
-        child: Center(
-          child: Material(color: Colors.transparent, child: toast),
-        ),
-      ),
+      builder: (ctx) =>
+          positionedToastBuilder?.call(ctx, toastChild) ??
+          Positioned(
+            bottom: 100,
+            left: 0,
+            right: 0,
+            child: toastChild,
+          ),
     );
 
     overlay.insert(_currentToast!);
