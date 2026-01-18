@@ -6,7 +6,8 @@ import '../../../../presentation/styles/styles.dart';
 
 enum AppLocale {
   english('en', MyAssets.ASSETS_ICONS_LANGUAGES_ICONS_ENGLISH_PNG, FontStyles.familyPoppins),
-  arabic('ar', MyAssets.ASSETS_ICONS_LANGUAGES_ICONS_ARABIC_PNG, FontStyles.familyTajawal);
+  russian('ru', MyAssets.ASSETS_ICONS_LANGUAGES_ICONS_ENGLISH_PNG, FontStyles.familyPoppins),
+  uzbek('uz', MyAssets.ASSETS_ICONS_LANGUAGES_ICONS_ENGLISH_PNG, FontStyles.familyPoppins);
 
   const AppLocale(this.code, this.flag, this.fontFamily);
 
@@ -16,8 +17,9 @@ enum AppLocale {
 
   String getLanguageName(BuildContext context) {
     return switch (this) {
-      AppLocale.arabic => tr(context).arabic,
       AppLocale.english => tr(context).english,
+      AppLocale.russian => tr(context).russian,
+      AppLocale.uzbek => tr(context).uzbek,
     };
   }
 }

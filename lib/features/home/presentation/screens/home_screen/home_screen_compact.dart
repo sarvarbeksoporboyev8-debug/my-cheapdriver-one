@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../auth/presentation/providers/auth_state_provider.dart';
 import '../../../../../core/presentation/helpers/localization_helper.dart';
 import '../../../../../core/presentation/screens/nested_screen_scaffold.dart';
+import '../../../../../core/presentation/styles/styles.dart';
 import '../../../../../core/presentation/utils/riverpod_framework.dart';
 import '../../../../../core/presentation/widgets/loading_widgets.dart';
 import '../../components/retry_again_component.dart';
@@ -15,8 +17,46 @@ class HomeScreenCompact extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+    final isDemoUser = authState.match(
+      () => false,
+      (user) => user.id == 'demo_user',
+    );
+
+    if (isDemoUser) {
+      return NestedScreenScaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.paddingH20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.local_shipping,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(height: Sizes.marginV20),
+                Text(
+                  'Demo Mode',
+                  style: TextStyles.f24(context).copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: Sizes.marginV12),
+                Text(
+                  'Welcome to the demo version!\nExplore the app features using the navigation below.',
+                  textAlign: TextAlign.center,
+                  style: TextStyles.f16(context),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     final locationAsync = ref.watch(
-      //Using select to avoid rebuilding when location change
       locationStreamProvider.select((value) => value.whenData((value) => true)),
     );
 
