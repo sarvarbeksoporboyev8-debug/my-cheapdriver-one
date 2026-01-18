@@ -1,8 +1,8 @@
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart' as gl;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/core_features/theme/presentation/utils/app_static_colors.dart';
+import '../../../../core/infrastructure/services/location_service.dart';
 import '../../domain/place_directions.dart';
 
 abstract class MapCoordinatesHelper {
@@ -10,7 +10,7 @@ abstract class MapCoordinatesHelper {
     required LatLng firstLocation,
     required LatLng secondLocation,
   }) {
-    return gl.Geolocator.distanceBetween(
+    return LocationService.distanceBetween(
       firstLocation.latitude,
       firstLocation.longitude,
       secondLocation.latitude,
@@ -29,16 +29,15 @@ abstract class MapCoordinatesHelper {
       color: AppStaticColors.blue,
       points: polylinePoints!
           .map(
-            (polylinePoint) => LatLng(polylinePoint.latitude, polylinePoint.longitude),
+            (polylinePoint) =>
+                LatLng(polylinePoint.latitude, polylinePoint.longitude),
           )
           .toList(),
     );
   }
 
   static String getDirectionInfoText(PlaceDirections placeDirections) {
-    final distance = convertMeterToDistanceString(
-      placeDirections.distance,
-    );
+    final distance = convertMeterToDistanceString(placeDirections.distance);
     final duration = placeDirections.duration;
     return '$distance, $duration';
   }

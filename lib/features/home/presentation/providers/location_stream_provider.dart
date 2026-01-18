@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/infrastructure/services/location_service.dart';
@@ -10,18 +10,19 @@ import '../utils/location_error.dart';
 part 'location_stream_provider.g.dart';
 
 @riverpod
-Stream<Position> locationStream(
-  LocationStreamRef ref,
-) async* {
+Stream<LocationData> locationStream(LocationStreamRef ref) async* {
   final locationService = ref.watch(locationServiceProvider);
 
   await ref.watch(enableLocationProvider(locationService).future);
   await ref.watch(requestLocationPermissionProvider(locationService).future);
 
-  yield* Geolocator.getPositionStream(
-    locationSettings: locationService.getLocationSettings(),
-    //Throttling location's stream as intervalDuration is not supported on iOS
-  ).throttleTime(const Duration(seconds: AppLocationSettings.locationChangeInterval)).handleError(
+  await locationService.configureLocationSettings();
+
+  yield* locationService
+      .getLocationStream()
+      .throttleTime(
+          const Duration(seconds: AppLocationSettings.locationChangeInterval))
+      .handleError(
     (Object err, StackTrace st) {
       Error.throwWithStackTrace(LocationError.getLocationTimeout, st);
     },

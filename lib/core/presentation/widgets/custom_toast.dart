@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluttertoast/fluttertoast.dart';
-
 import '../../core_features/theme/presentation/utils/app_static_colors.dart';
 import '../styles/styles.dart';
 
 abstract class CustomToast {
+  static OverlayEntry? _currentToast;
+
   static void showToast(
     BuildContext context, {
     Widget? child,
     Color? backgroundColor,
-    Gradient? backgroundGradient,
     double? borderRadius,
-    BoxBorder? border,
     EdgeInsets? margin,
     EdgeInsets? padding,
-    ToastGravity toastGravity = ToastGravity.BOTTOM,
     Duration toastDuration = const Duration(seconds: 3),
-    Duration fadeDuration = const Duration(milliseconds: 350),
-    PositionedToastBuilder? positionedToastBuilder,
   }) {
-    FToast().init(context);
+    removeToast();
 
+    final overlay = Overlay.of(context);
     final toast = Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? Theme.of(context).colorScheme.secondary,
-        gradient: backgroundGradient,
-        borderRadius: BorderRadius.circular(
-          borderRadius ?? Sizes.dialogR20,
-        ),
-        border: border,
+        borderRadius: BorderRadius.circular(borderRadius ?? Sizes.dialogR20),
       ),
       margin: margin,
       padding: padding ??
@@ -40,31 +32,39 @@ abstract class CustomToast {
       child: child,
     );
 
-    FToast().removeCustomToast();
-    FToast().showToast(
-      child: toast,
-      gravity: toastGravity,
-      toastDuration: toastDuration,
-      fadeDuration: fadeDuration,
-      positionedToastBuilder: positionedToastBuilder,
+    _currentToast = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 100,
+        left: 0,
+        right: 0,
+        child: Center(
+          child: Material(color: Colors.transparent, child: toast),
+        ),
+      ),
     );
+
+    overlay.insert(_currentToast!);
+    Future.delayed(toastDuration, removeToast);
   }
 
-  //using Toast without context will be shown even if the app is in background
-  static Future<bool?> showBackgroundToast(
+  static void removeToast() {
+    _currentToast?.remove();
+    _currentToast = null;
+  }
+
+  static Future<void> showBackgroundToast(
     BuildContext context, {
     String msg = '',
     Color? backgroundColor,
-    Toast toastLength = Toast.LENGTH_LONG,
-    ToastGravity toastGravity = ToastGravity.BOTTOM,
   }) async {
-    return Fluttertoast.showToast(
-      msg: msg,
-      fontSize: Sizes.font16,
-      textColor: AppStaticColors.lightBlack,
-      backgroundColor: backgroundColor ?? AppStaticColors.toastColor,
-      toastLength: toastLength,
-      gravity: toastGravity,
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg,
+            style: TextStyle(
+                fontSize: Sizes.font16, color: AppStaticColors.lightBlack)),
+        backgroundColor: backgroundColor ?? AppStaticColors.toastColor,
+        behavior: SnackBarBehavior.floating,
+      ),
     );
   }
 }

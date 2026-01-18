@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-
+import '../../../../core/presentation/hooks/floating_search_bar_controller_hook.dart';
 import '../../../../core/presentation/styles/styles.dart';
 import '../../../../core/presentation/utils/fp_framework.dart';
 import '../../../../core/presentation/utils/riverpod_framework.dart';
@@ -13,10 +12,12 @@ import '../widgets/map_search_menu_item.dart';
 class MapSearchMenuComponent extends ConsumerWidget {
   const MapSearchMenuComponent({
     required this.searchBarController,
+    required this.onClose,
     super.key,
   });
 
-  final FloatingSearchBarController searchBarController;
+  final CustomSearchBarController searchBarController;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,7 +44,7 @@ class MapSearchMenuComponent extends ConsumerWidget {
                 return InkWell(
                   borderRadius: BorderRadius.circular(Sizes.mapSearchBarRadius),
                   onTap: () {
-                    searchBarController.close();
+                    onClose();
                     ref
                         .read(selectedPlaceAutocompleteProvider.notifier)
                         .update((_) => Some(placeSearchList[index]));

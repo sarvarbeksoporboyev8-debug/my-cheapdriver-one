@@ -33,8 +33,7 @@ dependencies:
   go_router: ^12.1.1
 
   # Location
-  location: ^5.0.2+1
-  geolocator: ^9.0.2
+  location: ^5.0.3
   google_maps_flutter: ^2.2.8
   flutter_polyline_points: ^2.1.0
 
@@ -71,11 +70,7 @@ dependencies:
   # Widgets
   flutter_platform_widgets: ^6.0.2
   flutter_adaptive_scaffold: ^0.1.6
-  fluttertoast: ^8.2.2
   qr_flutter: ^4.1.0
-  material_floating_search_bar:
-    git:
-      url: https://github.com/Railway-Engineering-Solutions/material_floating_search_bar.git
 
 dev_dependencies:
   flutter_test:
