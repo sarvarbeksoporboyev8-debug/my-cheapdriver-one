@@ -81,8 +81,6 @@ dev_dependencies:
 
   # Lints
   very_good_analysis: ^5.1.0
-  custom_lint: ^0.5.6
-  riverpod_lint: ^2.3.4
 
   # Code gen
   build_runner: ^2.4.8
