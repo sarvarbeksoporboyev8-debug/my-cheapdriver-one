@@ -54,7 +54,6 @@ abstract class Sizes {
   static const double paddingV8 = 8;
   static const double paddingV4 = 4;
   static const double paddingH20 = 20;
-  static const double paddingH16 = 16;
   static const double paddingH14 = 14;
   static const double paddingH8 = 8;
   static const double paddingH4 = 4;

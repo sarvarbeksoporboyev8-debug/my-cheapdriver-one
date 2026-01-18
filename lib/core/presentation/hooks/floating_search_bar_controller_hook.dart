@@ -1,40 +1,26 @@
 import 'package:flutter/material.dart';
 
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+
 import '../utils/riverpod_framework.dart';
 
-class CustomSearchBarController {
-  final TextEditingController textController = TextEditingController();
-  VoidCallback? _closeCallback;
-
-  String get query => textController.text;
-  set query(String value) => textController.text = value;
-
-  void close() => _closeCallback?.call();
-  void clear() => textController.clear();
-
-  void dispose() {
-    textController.dispose();
-  }
+FloatingSearchBarController useFloatingSearchBarController() {
+  return use(const _FloatingSearchBarController());
 }
 
-CustomSearchBarController useFloatingSearchBarController() {
-  return use(const _FloatingSearchBarControllerHook());
-}
-
-class _FloatingSearchBarControllerHook extends Hook<CustomSearchBarController> {
-  const _FloatingSearchBarControllerHook();
+class _FloatingSearchBarController extends Hook<FloatingSearchBarController> {
+  const _FloatingSearchBarController();
 
   @override
-  _FloatingSearchBarControllerState createState() =>
-      _FloatingSearchBarControllerState();
+  _FloatingSearchBarControllerState createState() => _FloatingSearchBarControllerState();
 }
 
 class _FloatingSearchBarControllerState
-    extends HookState<CustomSearchBarController, _FloatingSearchBarControllerHook> {
-  final _controller = CustomSearchBarController();
+    extends HookState<FloatingSearchBarController, _FloatingSearchBarController> {
+  final _controller = FloatingSearchBarController();
 
   @override
-  CustomSearchBarController build(BuildContext context) => _controller;
+  FloatingSearchBarController build(BuildContext context) => _controller;
 
   @override
   void dispose() {
