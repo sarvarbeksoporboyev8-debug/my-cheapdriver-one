@@ -23,7 +23,7 @@ class AppLocaleController extends _$AppLocaleController {
 
   void _setTimeAgoLocales() {
     //Note: en messages is loaded by default
-    timeago.setLocaleMessages(AppLocale.arabic.code, timeago.ArMessages());
+    timeago.setLocaleMessages(AppLocale.russian.code, timeago.RuMessages());
   }
 
   Future<void> _initDateFormatting() async {
