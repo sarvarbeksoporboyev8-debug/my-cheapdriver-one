@@ -35,7 +35,7 @@ class AppSettingsSectionComponent extends ConsumerWidget {
                 final changeTheme = value ? AppThemeMode.light : AppThemeMode.dark;
                 ref.read(appThemeControllerProvider.notifier).changeTheme(changeTheme);
               },
-              thumbColor: WidgetStatePropertyAll(customColors(context).whiteColor),
+              thumbColor: MaterialStatePropertyAll(customColors(context).whiteColor),
               activeColor: AppStaticColors.lightOrange,
               activeTrackColor: AppStaticColors.lightOrange,
             ),
