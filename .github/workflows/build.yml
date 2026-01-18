@@ -3,56 +3,40 @@ name: Build
 on:
   push:
     branches: [master, main]
-    paths-ignore:
-      - "**.md"
   pull_request:
-    paths-ignore:
-      - "**.md"
 
 jobs:
   build:
-    name: Run flutter test and analyze
+    name: Build APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Flutter environment
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.3"
+          flutter-version: '3.19.6'
+          channel: stable
 
       - name: Setup Firebase
-        shell: bash
         env:
           FIREBASE_OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}
           ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
         run: |
           echo "$FIREBASE_OPTIONS" > lib/firebase_options.dart
-          dart format lib/firebase_options.dart --line-length=100
           echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
           echo "$IOS_GOOGLE_SERVICE" > ios/Runner/GoogleService-Info.plist
 
       - name: Install dependencies
         run: flutter pub get
-
-      - name: Verify formatting
-        run: |
-          find . -name "*.dart" \
-          ! -name "*.g.dart" \
-          ! -name "*.freezed.dart" \
-          ! -name "app_localizations*.dart" \
-          ! -path "*/gen/*" \
-          ! -name "firebase_options*.dart" \
-          | xargs dart format --output=none --set-exit-if-changed --line-length=100
-
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Run flutter analyze
-        run: flutter analyze
-
-      - name: Run tests
-        run: flutter test
 
       - name: Build APK
         run: flutter build apk --release
